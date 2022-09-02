@@ -1,6 +1,10 @@
 require('dotenv').config()
 const chalk = require("chalk");
 const dbConfig = require("./config/dbConfig");
+const BaseEntity = require("./models/BaseEntity");
+const Department = require("./models/Department");
+
+
 
 async function main() {
     console.info(chalk.blue("=".repeat(30)));
@@ -14,3 +18,4 @@ async function main() {
 };
 
 main();
+

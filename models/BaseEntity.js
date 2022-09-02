@@ -1,5 +1,4 @@
-const dbConnection = await dbConfig();
-
+const connection = require("../config/dbConfig");
 
 class BaseEntity {
     constructor(dbConnection) {
@@ -28,4 +27,6 @@ class BaseEntity {
         return this.dbConnection.query('DELETE ' + id + ' FROM ?', [table]);
 
     }
-}
+};
+
+module.exports = BaseEntity;

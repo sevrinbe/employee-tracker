@@ -30,10 +30,3 @@ CREATE TABLE employees (
     REFERENCES employees(employee_id)
     ON DELETE CASCADE 
 );
-
-CREATE TABLE managers (
-    manager_id,
-    employee_id INT, 
-    FOREIGN KEY (employee_id)
-    REFERENCES employees(employee_id)
-);
