@@ -1,15 +1,31 @@
 require('dotenv').config()
-require('console.table');
 const mysql = require("mysql2/promise");
 const chalk = require("chalk");
-const connect = require('./config/dbConfig');
 const inquirer = require("inquirer");
 const dbConfig = require("./config/dbConfig");
 const BaseEntity = require("./models/BaseEntity");
 const Department = require("./models/Department");
+let dbConnection;
+const { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_SCHEMA } = process.env;
+let connection;
 
-var dbConnection;
+async function connect() {
+    try {
+        let connection = await mysql.createConnection({
+            host: DB_HOST,
+            port: DB_PORT,
+            user: DB_USER,
+            password: DB_PASSWORD,
+            database: DB_SCHEMA
+        });
+        return connection;
+    } catch (err) {
+        console.error(chalk.red(err));
+        throw new Error("Unable to connect to database");
+    }
+}
 
+console.log(connection);
 
 async function main() {
     console.info(chalk.blue("=".repeat(30)));
@@ -25,8 +41,8 @@ console.log(dbConfig);
 
 main();
 
-function firstPrompt() {
-    inquirer
+async function firstPrompt() {
+    await inquirer
     .prompt({
       type: "list",
       name: "task",
@@ -74,10 +90,10 @@ function firstPrompt() {
 };
 
 function viewEmployees() {
-  console.log("Viewing employees\n");
+    console.log("Viewing employees\n");
   
-  var query =
-    `SELECT employee_id AS "Employee ID",
+    var query =
+      `SELECT employee_id AS "Employee ID",
       first_name AS "First Name",
       last_name AS "Last Name",
       roles.title as Title,
@@ -91,16 +107,12 @@ function viewEmployees() {
       ON A.role_id = roles.position_id
       INNER JOIN departments 
       ON roles.department_id = departments.id
-    ORDER BY A.manager_id;`;
+      ORDER BY A.manager_id;`;
 
-  dbConnection.query(query, (err, res) => {
-    if(err) {
-      return err 
-      } else {
-      console.table(res);
-      }});
-      console.log("Employees viewed!\n");
-};
+  console.log(connection);
+
+
+  };
 
 
 
