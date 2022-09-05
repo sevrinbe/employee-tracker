@@ -5,8 +5,6 @@ const chalk = require("chalk");
 const connect = require('./config/dbConfig');
 const inquirer = require("inquirer");
 const dbConfig = require("./config/dbConfig");
-const BaseEntity = require("./models/BaseEntity");
-const Department = require("./models/Department");
 const { up } = require('inquirer/lib/utils/readline');
 var dbConnection;
 let currentDepartments = [];
@@ -43,7 +41,6 @@ function firstPrompt() {
         "Add Role",
         "Add Employee",
         "Update Employee Role",
-        "Remove Employees",
         "End"]
     })
     .then(function ({ task }) {
@@ -74,10 +71,6 @@ function firstPrompt() {
           
         case "Update Employee Role":
           updateEmployeeRole();
-          break;
-
-        case "Remove Employees":
-          removeEmployee();
           break;
 
         case "End":
