@@ -1,6 +1,6 @@
-SELECT employee_id AS "Employee ID",
-    first_name AS "First Name",
-    last_name AS "Last Name",
+SELECT employee_id AS Employee_ID,
+    first_name AS First_Name,
+    last_name AS Last_Name,
     roles.title as Title,
     roles.salary as Salary,
     departments.name as Department,
@@ -14,7 +14,7 @@ INNER JOIN departments
 ON roles.department_id = departments.id
 ORDER BY A.manager_id;
 
-
+ 
 
 /* 
 UPDATE employees SET manager_id = NULL WHERE manager_id = ---VARIABLE FOR EMPLOYEE ID---;
@@ -25,7 +25,8 @@ DELETE employees WHERE employee_id = ---VARIABLE FOR EMPLOYEE ID---;
 SELECT roles.title AS roles
 FROM roles; 
 
-SELECT departments.name AS departments
+SELECT  departments.name AS Departments,
+        departments.id as 'Deparment ID'
 FROM departments; 
 
 /* INSERT INTO roles (position_id) */
