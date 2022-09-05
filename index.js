@@ -16,6 +16,7 @@ let currentRolesId = [];
 let currentEmployees = [];
 let currentEmployeesId = [];
 
+
 async function main() {
     console.info(chalk.blue("=".repeat(30)));
     console.info(chalk.blue("Connecting to database..."));
@@ -98,7 +99,7 @@ async function getEmployees () {
       console.table(listedEmployees[0]);
       for(i = 0; i < listedEmployees[0].length; i++) {
         currentEmployees.push(listedEmployees[0][i].Name);
-        currentEmployeesId.push(listedEmployees[0][i].Department_ID);
+        currentEmployeesId.push(listedEmployees[0][i].employee_id);
       }
     }
   }); 
@@ -106,7 +107,7 @@ async function getEmployees () {
 
 async function viewRolesQuery() {
   let query = `SELECT roles.title AS Roles,
-                      roles.position_id AS "Position ID"
+                      roles.position_id AS "Position_ID"
               FROM roles;`;
   
   await dbConnection.query(query).then((err, res) => {
@@ -117,7 +118,7 @@ async function viewRolesQuery() {
       console.table(res[0]);
       for(i = 0; i < res[0].length; i++) {
         currentRoles.push(res[0][i].Roles);
-        currentRolesId.push(res[0][i].ID);
+        currentRolesId.push(res[0][i].Position_ID);
       }
     }
     console.log("All Roles Viewed!\n")
@@ -239,7 +240,6 @@ function addADepartment() {
         name: "nameOfDepartment",
       })
       .then(function ({nameOfDepartment}) {
-        console.log(nameOfDepartment)
         query = `INSERT INTO departments (name)
         VALUES ('${nameOfDepartment}');`;
     
@@ -311,17 +311,57 @@ async function addEmployee() {
   console.log("\n")
 
   await viewRolesQuery();
-  getEmployees();
+  await getEmployees();
 
-  let query = `SELECT * FROM employees;`
+  let newArray = [...currentEmployees];
+  newArray.push("No Manager");
 
-  dbConnection.query(query).then((err) => {
+  await inquirer
+  .prompt([{
+    type: "input",
+    message: "What is the first name?",
+    name: "firstName",
+  },
+  {
+    type: "input",
+    message: "What is the last name?",
+    name: "lastName",
+  },
+  {
+    type: "list",
+    message: "What role is this employee?",
+    name: "employeeRole",
+    choices: currentRoles,
+  },
+  {
+    type: "list",
+    message: "Who is their manager?",
+    name: "employeeManager",
+    choices: newArray,
+  }])
+  .then(async function ({firstName, lastName, employeeRole, employeeManager}) {
+    let managerId = '';
+    if(employeeManager != "No Manager") {
+      managerId = currentEmployeesId[currentEmployees.indexOf(employeeManager)];
+    };
+
+    let query = `INSERT INTO employees (first_name, last_name, role_id)
+               VALUES ("${firstName}", "${lastName}", "${currentRolesId[currentRoles.indexOf(employeeRole)]}");`
+
+    if (managerId != '') {
+      query = `INSERT INTO employees (first_name, last_name, role_id, manager_id)
+               VALUES ("${firstName}", "${lastName}", "${currentRolesId[currentRoles.indexOf(employeeRole)]}", "${managerId}");`
+    }
+    
+  await dbConnection.query(query).then((err) => {
     try {
-
+      if (err) throw err;
+    } catch (response) {
+      viewEmployees();
+      console.log("Success!");
     }
   })
-  
-
+})
 }
 
 function updateEmployeeRole() {
@@ -439,15 +479,23 @@ function changeEmployeeRole (employee) {
 
 };
 
+// function removeEmployee() {
+//   console.log("\n")
+//   console.info(chalk.blue("=".repeat(30)));
+//   console.log("Removing an employee.");
+//   console.info(chalk.blue("=".repeat(30)));
+//   console.log("\n")
 
+//   getEmployees();
 
-
-
-function removeEmployee() {
-  console.log("\n")
-  console.info(chalk.blue("=".repeat(30)));
-  console.log("Removing an employee.");
-  console.info(chalk.blue("=".repeat(30)));
-  console.log("\n")
+//   let query = `UPDATE employees SET manager_id = NULL WHERE manager_id = ${currentEmployeesId};
+//   DELETE employees WHERE employee_id = ${currentEmployeesId};`
   
-}
+//   dbConnection.query(query).then((err) => {
+//     try {
+//       if (err) throw err;
+//     } catch (response) {
+//       console.table(response)
+//     }
+//   })
+// }

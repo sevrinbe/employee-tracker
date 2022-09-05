@@ -23,10 +23,12 @@ FROM employees
 INNER JOIN roles
 ON role_id = roles.position_id; */
 
-/*
+
 UPDATE employees SET manager_id = NULL WHERE manager_id = ---VARIABLE FOR EMPLOYEE ID---;
 DELETE employees WHERE employee_id = ---VARIABLE FOR EMPLOYEE ID---; */
-/* 
+
+
+
 UPDATE employees SET role_id = ${selectedRole}
 WHERE employees.first_name = ${employee.split[0]}; */
 
