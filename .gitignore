@@ -94,7 +94,7 @@ build/Release
 node_modules/
 jspm_packages/
 
-query.sql
+.query.sql
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
