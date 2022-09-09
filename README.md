@@ -24,6 +24,7 @@
   The use of the project is to demonstrate my ability to understand how MySQL can be used with JavaScript and Node. 
 
 
+
   ![image](./assets/screenshots/screenshot.png)
   
   ![image](./assets/screenshots/screenshot2.png)
@@ -50,5 +51,5 @@
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
  
   ## Tests
-  
+
   N/A
