@@ -22,8 +22,12 @@
   ## Usage
   
   The use of the project is to demonstrate my ability to understand how MySQL can be used with JavaScript and Node. 
+
+
+  ![image](./assets/screenshots/screenshot.png)
   
-  To add a screenshot, create an  folder in your repository and upload your screenshot to it. Then, using the relative filepath, add it to your README.
+  ![image](./assets/screenshots/screenshot2.png)
+
 
   ## Starting the Program
 
