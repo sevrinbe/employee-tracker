@@ -14,7 +14,6 @@ let currentRolesId = [];
 let currentEmployees = [];
 let currentEmployeesId = [];
 
-
 async function main() {
     console.info(chalk.blue("=".repeat(30)));
     console.info(chalk.blue("Connecting to database..."));
@@ -118,7 +117,6 @@ async function viewRolesQuery() {
 });
 };
 
-
 function mostCurrentDepartments() {
   let query = `
   SELECT  departments.name AS Departments,
@@ -172,7 +170,6 @@ async function viewAllRoles () {
   await viewRolesQuery();
   firstPrompt(); 
 };
-
 
 function viewEmployees() {
   console.log("\n")
